@@ -1,5 +1,6 @@
 package com.example.student.db2018010901;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
@@ -49,7 +50,8 @@ public class MainActivity extends AppCompatActivity {
         File dbFile = new File(getFilesDir() + File.separator + "students.db");
         copyFile(dbFile);
         SQLiteDatabase db = SQLiteDatabase.openOrCreateDatabase(dbFile, null);
-        Cursor c = db.rawQuery("select * from phone", null);
+        Cursor c = db.query("phone", new String[] {"_id", "name", "score"},
+                null, null, null, null, null);
         c.moveToFirst();
         Log.d("DATA", c.getString(1));
         while(c.moveToNext())
@@ -58,5 +60,14 @@ public class MainActivity extends AppCompatActivity {
         }
         c.close();
         db.close();
+    }
+    public void click2(View v)
+    {
+        File dbFile = new File(getFilesDir() + File.separator + "students.db");
+        SQLiteDatabase db = SQLiteDatabase.openOrCreateDatabase(dbFile, null);
+        ContentValues cv = new ContentValues();
+        cv.put("name", "Bob");
+        cv.put("score", 99);
+        db.insert("phone", null, cv);
     }
 }
