@@ -1,8 +1,10 @@
 package com.example.student.db2018010901;
 
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import java.io.File;
@@ -28,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
                 OutputStream os = new FileOutputStream(dbFile);
                 byte b[] = new byte[1024];
                 int length;
-                if ((length = is.read(b)) != -1)
+                while ((length = is.read(b)) != -1)
                 {
                     os.write(b, 0, length);
                 }
@@ -47,5 +49,8 @@ public class MainActivity extends AppCompatActivity {
         File dbFile = new File(getFilesDir() + File.separator + "students.db");
         copyFile(dbFile);
         SQLiteDatabase db = SQLiteDatabase.openOrCreateDatabase(dbFile, null);
+        Cursor c = db.rawQuery("select * from phone", null);
+        c.moveToFirst();
+        Log.d("DATA", c.getString(1));
     }
 }
