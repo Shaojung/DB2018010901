@@ -52,5 +52,11 @@ public class MainActivity extends AppCompatActivity {
         Cursor c = db.rawQuery("select * from phone", null);
         c.moveToFirst();
         Log.d("DATA", c.getString(1));
+        while(c.moveToNext())
+        {
+            Log.d("DATA", c.getString(1));
+        }
+        c.close();
+        db.close();
     }
 }
