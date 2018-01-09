@@ -47,24 +47,28 @@ public class MainActivity extends AppCompatActivity {
     }
     public void click1(View v)
     {
-        File dbFile = new File(getFilesDir() + File.separator + "students.db");
-        copyFile(dbFile);
-        SQLiteDatabase db = SQLiteDatabase.openOrCreateDatabase(dbFile, null);
+        // copyFile(dbFile);
+        // SQLiteDatabase db = SQLiteDatabase.openOrCreateDatabase(dbFile, null);
+        MyHelper helper = new MyHelper(MainActivity.this);
+        SQLiteDatabase db = helper.getWritableDatabase();
         Cursor c = db.query("phone", new String[] {"_id", "name", "score"},
                 null, null, null, null, null);
-        c.moveToFirst();
-        Log.d("DATA", c.getString(1));
-        while(c.moveToNext())
-        {
+        if (c.moveToFirst()){
             Log.d("DATA", c.getString(1));
+            while(c.moveToNext())
+            {
+                Log.d("DATA", c.getString(1));
+            }
         }
+
+
         c.close();
         db.close();
     }
     public void click2(View v)
     {
-        File dbFile = new File(getFilesDir() + File.separator + "students.db");
-        SQLiteDatabase db = SQLiteDatabase.openOrCreateDatabase(dbFile, null);
+        MyHelper helper = new MyHelper(MainActivity.this);
+        SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put("name", "Bob");
         cv.put("score", 99);
